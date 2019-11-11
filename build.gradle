@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.ifmo.se.testing.zavoduben'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'org.testng', name: 'testng', version: '7.0.0'
+    testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    testCompile group: 'org.tomlj', name: 'tomlj', version: '1.0.0'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useTestNG {
+        suites 'src/test/resources/testng.xml'
+    }
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
