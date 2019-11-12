@@ -15,7 +15,7 @@ public class LoginPage {
         return new LoginPage(driver);
     }
 
-    private LoginPage(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         this.driver = driver;
         // TODO: Check that this is the login page and throw IllegalStateException if it's not
         PageFactory.initElements(driver, this);
