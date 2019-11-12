@@ -40,8 +40,13 @@ public class InboxPage {
     }
 
     public LoginPage logout() {
+        driver.switchTo().defaultContent();
+
         By byXPath = By.xpath("//*[@id='PH_logoutLink']");
         WebElement logoutBtn = driver.findElement(byXPath);
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.elementToBeClickable(logoutBtn));
+
         logoutBtn.click();
 
         return new LoginPage(driver);

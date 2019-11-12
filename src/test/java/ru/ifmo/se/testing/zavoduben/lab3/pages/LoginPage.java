@@ -4,7 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
+import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtureProvider;
 import ru.ifmo.se.testing.zavoduben.lab3.util.Constants;
+
+import static org.testng.Assert.assertEquals;
 
 public class LoginPage {
 
@@ -107,5 +111,21 @@ public class LoginPage {
         WebElement errorMessageLabel = driver.findElement(byXPath);
 
         return errorMessageLabel.getText();
+    }
+
+    public InboxPage loginAs(User user) {
+        LoginPage loginPage = LoginPage.open(driver);
+
+        loginPage.typeUsername(user.getUsername());
+        loginPage.clickDomainSelector();
+        loginPage.selectDomain(user.getDomain());
+        loginPage.submitUsername();
+
+        loginPage.typePassword(user.getPassword());
+        return loginPage.submitPassword();
+    }
+
+    public boolean isLoggedIn() {
+        return false; // TODO
     }
 }

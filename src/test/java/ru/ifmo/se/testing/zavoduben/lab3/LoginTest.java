@@ -1,5 +1,6 @@
 package ru.ifmo.se.testing.zavoduben.lab3;
 
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
@@ -23,8 +24,12 @@ public class LoginTest extends BaseTestConfiguration {
 
     @BeforeMethod
     public void logout() {
-        InboxPage inboxPage = new InboxPage(driver);
-        inboxPage.logout();
+        try {
+            InboxPage inboxPage = InboxPage.open(driver);
+            inboxPage.logout();
+        } catch (ElementNotInteractableException e) {
+            // Don't mind.
+        }
     }
 
     @Test
