@@ -20,5 +20,13 @@ public class InboxTest extends BaseTestConfiguration {
         driver = (WebDriver) context.getAttribute("driver");
     }
 
-    // TODO
+    @Test
+    void logoutPositive() {
+        InboxPage inboxPage = InboxPage.open(driver);
+
+        LoginPage loginPage = inboxPage.logout();
+
+        LoginPage expected = new LoginPage(driver);
+        assertEquals(expected, loginPage);
+    }
 }
