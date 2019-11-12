@@ -3,6 +3,7 @@ package ru.ifmo.se.testing.zavoduben.lab3;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtureProvider;
@@ -18,6 +19,12 @@ public class LoginTest extends BaseTestConfiguration {
     @BeforeClass
     public void retrieveDriver(ITestContext context) {
         driver = (WebDriver) context.getAttribute("driver");
+    }
+
+    @BeforeMethod
+    public void logout() {
+        InboxPage inboxPage = new InboxPage(driver);
+        inboxPage.logout();
     }
 
     @Test
