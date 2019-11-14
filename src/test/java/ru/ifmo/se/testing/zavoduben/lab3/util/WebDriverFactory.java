@@ -1,6 +1,5 @@
 package ru.ifmo.se.testing.zavoduben.lab3.util;
 
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;

@@ -1,16 +1,17 @@
 package ru.ifmo.se.testing.zavoduben.lab3;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
+import ru.ifmo.se.testing.zavoduben.lab3.fixtures.Mailbox;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
-import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtureProvider;
+import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.InboxPage;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.LoginPage;
-
-import java.util.function.Supplier;
+import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,9 +19,15 @@ import static org.junit.Assert.assertEquals;
 public class LoginTest extends BaseTestConfiguration {
 
     private final WebDriver driver;
+    private LoginPage loginPage;
 
-    public LoginTest(Supplier<WebDriver> driver, String driverName) {
-        this.driver = driver.get();
+    public LoginTest(WebDriverSupplier driverSupplier) {
+        this.driver = driverSupplier.get();
+    }
+
+    @Before
+    public void openLoginPage() {
+        loginPage = LoginPage.open(driver);
     }
 
     @After
@@ -30,51 +37,49 @@ public class LoginTest extends BaseTestConfiguration {
 
     @Test
     public void loginPositive() {
-        LoginPage loginPage = LoginPage.open(driver);
+        User user = UserFixtures.getAnyUser();
 
-        User user = UserFixtureProvider.getInstance().getAnyUser();
-
-        loginPage.typeUsername(user.getUsername());
-        loginPage.selectDomain(user.getDomain());
-        loginPage.submitUsername();
-
-        loginPage.typePassword(user.getPassword());
-        InboxPage inboxPage = loginPage.submitPassword();
-
+        InboxPage inboxPage = loginPage.loginAs(user);
         assertEquals(user.getEmailAddress(), inboxPage.getCurrentUserEmail());
     }
 
     @Test
+    public void loginNegativeNonExistingEmail() {
+        Mailbox mailbox = UserFixtures.getNonExistingMailbox();
+
+        String actualErrorMessage = loginPage
+                .typeAndSubmitMailbox(mailbox)
+                .getErrorMessage();
+
+        String expectedMessage = "Такой аккаунт не зарегистрирован";
+        assertEquals(expectedMessage, actualErrorMessage);
+    }
+
+    @Test
     public void loginNegativeWrongPassword() {
-        LoginPage loginPage = LoginPage.open(driver);
+        User user = UserFixtures.getAnyUser();
 
-        User user = UserFixtureProvider.getInstance().getAnyUser();
-
-        loginPage.typeUsername(user.getUsername());
-        loginPage.selectDomain(user.getDomain());
-        loginPage.submitUsername();
-
-        loginPage.typePassword("WrongPassword");
-        LoginPage loginPageAfterSubmit = loginPage.submitPasswordExpectingError();
+        String actualErrorMessage = loginPage
+                .typeAndSubmitMailbox(user.getMailbox())
+                .typePassword("WrongPassword")
+                .submitPasswordExpectingError()
+                .getErrorMessage();
 
         String expected = "Неверный пароль, попробуйте ещё раз";
-        assertEquals(expected, loginPageAfterSubmit.getErrorMessage());
+        assertEquals(expected, actualErrorMessage);
     }
 
     @Test
     public void loginNegativeEmptyPassword() {
-        LoginPage loginPage = LoginPage.open(driver);
+        User user = UserFixtures.getAnyUser();
 
-        User user = UserFixtureProvider.getInstance().getAnyUser();
-
-        loginPage.typeUsername(user.getUsername());
-        loginPage.selectDomain(user.getDomain());
-        loginPage.submitUsername();
-
-        loginPage.typePassword("");
-        LoginPage loginPageAfterSubmit = loginPage.submitPasswordExpectingError();
+        String errorMessage = loginPage
+                .typeAndSubmitMailbox(user.getMailbox())
+                .typePassword("")
+                .submitPasswordExpectingError()
+                .getErrorMessage();
 
         String expected = "Поле «Пароль» должно быть заполнено";
-        assertEquals(expected, loginPageAfterSubmit.getErrorMessage());
+        assertEquals(expected, errorMessage);
     }
 }

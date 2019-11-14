@@ -7,11 +7,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
-import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtureProvider;
+import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.InboxPage;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.LoginPage;
-
-import java.util.function.Supplier;
+import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
 import static org.junit.Assert.assertFalse;
 
@@ -21,25 +20,25 @@ public class InboxTest extends BaseTestConfiguration {
     private final WebDriver driver;
     private InboxPage inboxPage;
 
-    public InboxTest(Supplier<WebDriver> driverSupplier, String driverName) {
+    public InboxTest(WebDriverSupplier driverSupplier) {
         this.driver = driverSupplier.get();
     }
 
     @Before
     public void logInAndOpenInbox() {
-        User user = UserFixtureProvider.getInstance().getAnyUser();
+        User user = UserFixtures.getAnyUser();
         LoginPage loginPage = LoginPage.open(driver);
         this.inboxPage = loginPage.loginAs(user);
+    }
+
+    @After
+    public void quitBrowser() {
+        driver.quit();
     }
 
     @Test
     public void logoutPositive() {
         LoginPage loginPage = inboxPage.logout();
         assertFalse(loginPage.isLoggedIn());
-    }
-
-    @After
-    public void quitBrowser() {
-        driver.quit();
     }
 }

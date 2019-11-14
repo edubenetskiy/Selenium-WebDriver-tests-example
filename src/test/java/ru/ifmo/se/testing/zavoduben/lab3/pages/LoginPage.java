@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import ru.ifmo.se.testing.zavoduben.lab3.fixtures.Domain;
+import ru.ifmo.se.testing.zavoduben.lab3.fixtures.Mailbox;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.util.Constants;
 
@@ -22,7 +24,7 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
-    public LoginPage typeUsername(String username) {
+    private LoginPage typeUsername(String username) {
         switchToLoginFrame();
 
         WebElement loginField = driver.findElement(By.xpath("//input[@name='Login']"));
@@ -60,13 +62,17 @@ public class LoginPage {
         return this;
     }
 
-    public LoginPage selectDomain(String domain) {
+    private LoginPage selectDomain(String domainName) {
         return this
                 .clickDomainSelector()
-                .selectDomainOptionFromSelector(domain);
+                .selectDomainOptionFromSelector(domainName);
     }
 
-    public LoginPage submitUsername() {
+    private LoginPage selectDomain(Domain domain) {
+        return this.selectDomain(domain.getDomainName());
+    }
+
+    private LoginPage submitMailbox() {
         switchToLoginFrame();
 
         By byXPath = By.xpath("//button[@type='submit']");
@@ -121,7 +127,7 @@ public class LoginPage {
 
         loginPage.typeUsername(user.getUsername());
         loginPage.selectDomain(user.getDomain());
-        loginPage.submitUsername();
+        loginPage.submitMailbox();
 
         loginPage.typePassword(user.getPassword());
         return loginPage.submitPassword();
@@ -129,5 +135,17 @@ public class LoginPage {
 
     public boolean isLoggedIn() {
         return false; // TODO
+    }
+
+    private LoginPage typeMailbox(Mailbox mailbox) {
+        return this
+                .typeUsername(mailbox.getName())
+                .selectDomain(mailbox.getDomain());
+    }
+
+    public LoginPage typeAndSubmitMailbox(Mailbox mailbox) {
+        return this
+                .typeMailbox(mailbox)
+                .submitMailbox();
     }
 }

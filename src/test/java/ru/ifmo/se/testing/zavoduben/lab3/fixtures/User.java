@@ -3,15 +3,13 @@ package ru.ifmo.se.testing.zavoduben.lab3.fixtures;
 public class User {
     private final String firstName;
     private final String lastName;
-    private final String login;
-    private final String domain;
     private final String password;
+    private final Mailbox mailbox;
 
-    public User(String firstName, String lastName, String login, String domain, String password) {
+    public User(String firstName, String lastName, Mailbox mailbox, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.login = login;
-        this.domain = domain;
+        this.mailbox = mailbox;
         this.password = password;
     }
 
@@ -23,12 +21,16 @@ public class User {
         return lastName;
     }
 
-    public String getUsername() {
-        return login;
+    public Mailbox getMailbox() {
+        return mailbox;
     }
 
-    public String getDomain() {
-        return domain;
+    public String getUsername() {
+        return mailbox.getName();
+    }
+
+    public Domain getDomain() {
+        return mailbox.getDomain();
     }
 
     public String getPassword() {
@@ -36,6 +38,6 @@ public class User {
     }
 
     public String getEmailAddress() {
-        return getUsername() + "@" + getDomain();
+        return mailbox.getAddress();
     }
 }
