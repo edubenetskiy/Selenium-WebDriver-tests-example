@@ -133,7 +133,9 @@ public class LoginPage {
     }
 
     public boolean isLoggedIn() {
-        return false; // TODO
+        By byXPath = By.xpath("//*[@id='PH_authView']");
+        WebElement headerForAuthenticatedUsers = driver.findElement(byXPath);
+        return headerForAuthenticatedUsers.isDisplayed();
     }
 
     private LoginPage typeMailbox(Mailbox mailbox) {
