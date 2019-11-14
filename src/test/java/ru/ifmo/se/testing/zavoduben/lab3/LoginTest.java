@@ -1,39 +1,35 @@
 package ru.ifmo.se.testing.zavoduben.lab3;
 
-import org.openqa.selenium.ElementNotInteractableException;
+import org.junit.After;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
-import org.testng.ITestContext;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtureProvider;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.InboxPage;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.LoginPage;
 
-import static org.testng.Assert.assertEquals;
+import java.util.function.Supplier;
 
+import static org.junit.Assert.assertEquals;
+
+@RunWith(Parameterized.class)
 public class LoginTest extends BaseTestConfiguration {
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
-    @BeforeClass
-    public void retrieveDriver(ITestContext context) {
-        driver = (WebDriver) context.getAttribute("driver");
+    public LoginTest(Supplier<WebDriver> driver, String driverName) {
+        this.driver = driver.get();
     }
 
-    @BeforeMethod
-    public void logout() {
-        try {
-            InboxPage inboxPage = InboxPage.open(driver);
-            inboxPage.logout();
-        } catch (ElementNotInteractableException e) {
-            // Don't mind.
-        }
+    @After
+    public void quitBrowser() {
+        driver.quit();
     }
 
     @Test
-    void loginPositive() {
+    public void loginPositive() {
         LoginPage loginPage = LoginPage.open(driver);
 
         User user = UserFixtureProvider.getInstance().getAnyUser();
@@ -50,7 +46,7 @@ public class LoginTest extends BaseTestConfiguration {
     }
 
     @Test
-    void loginNegativeWrongPassword() {
+    public void loginNegativeWrongPassword() {
         LoginPage loginPage = LoginPage.open(driver);
 
         User user = UserFixtureProvider.getInstance().getAnyUser();
@@ -68,7 +64,7 @@ public class LoginTest extends BaseTestConfiguration {
     }
 
     @Test
-    void loginNegativeEmptyPassword() {
+    public void loginNegativeEmptyPassword() {
         LoginPage loginPage = LoginPage.open(driver);
 
         User user = UserFixtureProvider.getInstance().getAnyUser();

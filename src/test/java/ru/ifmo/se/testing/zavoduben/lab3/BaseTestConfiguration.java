@@ -1,25 +1,18 @@
 package ru.ifmo.se.testing.zavoduben.lab3;
 
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
-import org.testng.ITestContext;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Parameters;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverFactory;
 
+import java.util.Arrays;
+import java.util.function.Supplier;
+
 public class BaseTestConfiguration {
-
-    private WebDriver driver;
-
-    @BeforeClass
-    @Parameters({ "browser" })
-    public void setUpDriver(ITestContext context, String browser) {
-        driver = WebDriverFactory.makeDriverForBrowserName(browser);
-        context.setAttribute("driver", driver);
-    }
-
-    @AfterClass
-    public void teardown(ITestContext context) {
-        driver.close();
+    @Parameterized.Parameters(name = "{1}")
+    public static Iterable<Object[]> makeWebDrivers() {
+        return Arrays.asList(new Object[][]{
+                { (Supplier<WebDriver>) WebDriverFactory::makeChromeDriver, "chrome" },
+                { (Supplier<WebDriver>) WebDriverFactory::makeFirefoxDriver, "firefox" },
+        });
     }
 }

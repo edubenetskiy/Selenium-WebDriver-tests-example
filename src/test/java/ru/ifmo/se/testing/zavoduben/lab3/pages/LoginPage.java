@@ -5,10 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
-import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtureProvider;
 import ru.ifmo.se.testing.zavoduben.lab3.util.Constants;
-
-import static org.testng.Assert.assertEquals;
 
 public class LoginPage {
 
