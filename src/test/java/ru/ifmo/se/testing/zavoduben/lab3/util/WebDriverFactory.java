@@ -10,20 +10,24 @@ import org.openqa.selenium.firefox.GeckoDriverService;
 
 import java.util.concurrent.TimeUnit;
 
-public class WebDriverFactory {
+class WebDriverFactory {
+
+    private static final int PAGE_LOAD_TIMEOUT_SECONDS = 45;
+    private static final int IMPLICIT_WAIT_SECONDS = 30;
+
     static {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/web-drivers/ChromeDriver.exe");
         System.setProperty("webdriver.gecko.driver", "src/test/resources/web-drivers/GeckoDriver.exe");
     }
 
-    public static ChromeDriver makeChromeDriver() {
+    static ChromeDriver makeChromeDriver() {
         ChromeDriverService chromeDriverService = ChromeDriverService.createDefaultService();
         ChromeOptions chromeOptions = new ChromeOptions().addArguments("--incognito");
         ChromeDriver webDriver = new ChromeDriver(chromeDriverService, chromeOptions);
         return configureWebDriver(webDriver);
     }
 
-    public static FirefoxDriver makeFirefoxDriver() {
+    static FirefoxDriver makeFirefoxDriver() {
         GeckoDriverService geckoDriverService = GeckoDriverService.createDefaultService();
         FirefoxOptions firefoxOptions = new FirefoxOptions().addArguments("-private-window");
         FirefoxDriver webDriver = new FirefoxDriver(geckoDriverService, firefoxOptions);
@@ -31,19 +35,8 @@ public class WebDriverFactory {
     }
 
     private static <D extends WebDriver> D configureWebDriver(D webDriver) {
-        webDriver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT_SECONDS, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT_SECONDS, TimeUnit.SECONDS);
         return webDriver;
-    }
-
-    public static WebDriver makeDriverForBrowserName(String browserName) {
-        switch (browserName) {
-            case "chrome":
-                return makeChromeDriver();
-            case "firefox":
-                return makeFirefoxDriver();
-            default:
-                throw new IllegalArgumentException("Browser name '" + browserName + "' not supported");
-        }
     }
 }
