@@ -41,4 +41,9 @@ public class InboxTest extends BaseTestConfiguration {
         LoginPage loginPage = inboxPage.logout();
         assertFalse(loginPage.isLoggedIn());
     }
+
+    @After
+    public void tearDown() {
+        inboxPage.removeAllMessages();
+    }
 }

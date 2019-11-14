@@ -51,4 +51,9 @@ public class InboxPage {
 
         return new LoginPage(driver);
     }
+
+    public InboxPage removeAllMessages() {
+        // TODO: Implement selecting and removing all messages
+        return this;
+    }
 }
