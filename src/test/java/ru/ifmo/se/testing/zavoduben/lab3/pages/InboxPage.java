@@ -7,18 +7,23 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.util.Constants;
 
 public class InboxPage {
     private final WebDriver driver;
 
-    public InboxPage(WebDriver driver) {
+    InboxPage(WebDriver driver) {
         this.driver = driver;
     }
 
     public static InboxPage open(WebDriver driver) {
         driver.get(Constants.BASE_URL + "/messages/inbox");
         return new InboxPage(driver);
+    }
+
+    public static InboxPage openLoggedInAs(User user, WebDriver driver) {
+        return LoginPage.open(driver).loginAs(user);
     }
 
     public String getCurrentUserEmail() {
@@ -33,10 +38,6 @@ public class InboxPage {
         wait.until(emailIsDisplayed);
 
         return usernameLabel.getText();
-    }
-
-    public boolean isLoggedInAs(String username, String domain) {
-        return getCurrentUserEmail().equals(username + "@" + domain);
     }
 
     public LoginPage logout() {
