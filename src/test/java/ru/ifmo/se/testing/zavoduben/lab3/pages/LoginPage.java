@@ -40,7 +40,7 @@ public class LoginPage {
         }
     }
 
-    public LoginPage clickDomainSelector() {
+    private LoginPage clickDomainSelector() {
         switchToLoginFrame();
 
         By byXPath = By.xpath("//div[@class='domain-select']");
@@ -50,7 +50,7 @@ public class LoginPage {
         return this;
     }
 
-    public LoginPage selectDomain(String domain) {
+    private LoginPage selectDomainOptionFromSelector(String domain) {
         switchToLoginFrame();
 
         By byXPath = By.xpath("//div[contains(@class, 'Select-option') and .//*[contains(text(), '" + domain + "')]]");
@@ -58,6 +58,12 @@ public class LoginPage {
         domainOption.click();
 
         return this;
+    }
+
+    public LoginPage selectDomain(String domain) {
+        return this
+                .clickDomainSelector()
+                .selectDomainOptionFromSelector(domain);
     }
 
     public LoginPage submitUsername() {
@@ -114,7 +120,6 @@ public class LoginPage {
         LoginPage loginPage = LoginPage.open(driver);
 
         loginPage.typeUsername(user.getUsername());
-        loginPage.clickDomainSelector();
         loginPage.selectDomain(user.getDomain());
         loginPage.submitUsername();
 

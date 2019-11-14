@@ -35,7 +35,6 @@ public class LoginTest extends BaseTestConfiguration {
         User user = UserFixtureProvider.getInstance().getAnyUser();
 
         loginPage.typeUsername(user.getUsername());
-        loginPage.clickDomainSelector();
         loginPage.selectDomain(user.getDomain());
         loginPage.submitUsername();
 
@@ -52,7 +51,6 @@ public class LoginTest extends BaseTestConfiguration {
         User user = UserFixtureProvider.getInstance().getAnyUser();
 
         loginPage.typeUsername(user.getUsername());
-        loginPage.clickDomainSelector();
         loginPage.selectDomain(user.getDomain());
         loginPage.submitUsername();
 
@@ -70,7 +68,6 @@ public class LoginTest extends BaseTestConfiguration {
         User user = UserFixtureProvider.getInstance().getAnyUser();
 
         loginPage.typeUsername(user.getUsername());
-        loginPage.clickDomainSelector();
         loginPage.selectDomain(user.getDomain());
         loginPage.submitUsername();
 
