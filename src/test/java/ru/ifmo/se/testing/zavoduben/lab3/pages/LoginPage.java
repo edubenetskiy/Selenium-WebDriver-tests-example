@@ -3,7 +3,6 @@ package ru.ifmo.se.testing.zavoduben.lab3.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.Domain;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.Mailbox;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
@@ -21,7 +20,6 @@ public class LoginPage {
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         // TODO: Check that this is the login page and throw IllegalStateException if it's not
-        PageFactory.initElements(driver, this);
     }
 
     private LoginPage typeUsername(String username) {
@@ -36,7 +34,8 @@ public class LoginPage {
 
     private void switchToLoginFrame() {
         driver.switchTo().defaultContent();
-        // HACK: On e.mail.ru, login form is inside a frame, but on account.mail.ru, it is not
+        // HACK: On e.mail.ru pages, login form is inside a frame with account.mail.ru
+        // But if you get an error, you will get redirected to account.mail.ru.
         if (!driver.getCurrentUrl().contains("account.mail.ru")) {
             driver.switchTo().frame(0);
         }
