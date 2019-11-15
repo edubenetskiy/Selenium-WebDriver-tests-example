@@ -2,6 +2,7 @@ package ru.ifmo.se.testing.zavoduben.lab3;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -36,6 +37,7 @@ public class MessageTest extends BaseTestConfiguration {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void removeFromInboxMovesToTrash() {
         /*
@@ -50,56 +52,67 @@ public class MessageTest extends BaseTestConfiguration {
         fail();
     }
 
+    @Ignore
     @Test
     public void removeFromTrashDeletesPermanently() {
         fail();
     }
 
+    @Ignore
     @Test
     public void moveToAnotherFolder() {
         fail();
     }
 
+    @Ignore
     @Test
     public void markAsSpamMovesToSpamFolder() {
         fail();
     }
 
+    @Ignore
     @Test
     public void unmarkAsSpamMovesToInbox() {
         fail();
     }
 
+    @Ignore
     @Test
     public void moveToArchive() {
         fail();
     }
 
+    @Ignore
     @Test
     public void markUnread() {
         fail();
     }
 
+    @Ignore
     @Test
     public void markRead() {
         fail();
     }
 
+    @Ignore
     @Test
     public void markImportant() {
         fail();
     }
 
+    @Ignore
     @Test
     public void unmarkImportant() {
         fail();
     }
 
+    @Ignore
     @Test
     public void replyFillsSubjectAndRecipient() {
         fail();
     }
 
+    @Ignore
     @Test
     public void forwardFillsSubjectButNoRecipient() {
         fail();
