@@ -12,21 +12,21 @@ import ru.ifmo.se.testing.zavoduben.lab3.util.Constants;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElement;
 
-public class InboxPage {
+public class FolderPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    InboxPage(WebDriver driver) {
+    FolderPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(this.driver, 10);
     }
 
-    public static InboxPage open(WebDriver driver) {
+    public static FolderPage openInbox(WebDriver driver) {
         driver.get(Constants.BASE_URL + "/messages/inbox");
-        return new InboxPage(driver);
+        return new FolderPage(driver);
     }
 
-    public static InboxPage openLoggedInAs(User user, WebDriver driver) {
+    public static FolderPage openLoggedInAs(User user, WebDriver driver) {
         return LoginPage.open(driver).loginAs(user);
     }
 
@@ -55,7 +55,7 @@ public class InboxPage {
         return new LoginPage(driver);
     }
 
-    public InboxPage removeAllMessages() {
+    public FolderPage removeAllMessages() {
         // TODO: Implement selecting and removing all messages
         return this;
     }

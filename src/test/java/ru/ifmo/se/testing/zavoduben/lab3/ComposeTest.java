@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.ComposePage;
-import ru.ifmo.se.testing.zavoduben.lab3.pages.InboxPage;
+import ru.ifmo.se.testing.zavoduben.lab3.pages.FolderPage;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.LoginPage;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
@@ -21,7 +21,7 @@ import static org.junit.Assert.fail;
 public class ComposeTest extends BaseTestConfiguration {
 
     private final WebDriver driver;
-    private InboxPage inboxPage;
+    private FolderPage inboxPage;
     private ComposePage composePage;
 
     public ComposeTest(WebDriverSupplier driverSupplier) {

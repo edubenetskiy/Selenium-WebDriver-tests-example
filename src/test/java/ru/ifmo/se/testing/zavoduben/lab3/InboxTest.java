@@ -8,7 +8,7 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
-import ru.ifmo.se.testing.zavoduben.lab3.pages.InboxPage;
+import ru.ifmo.se.testing.zavoduben.lab3.pages.FolderPage;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.LoginPage;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertFalse;
 public class InboxTest extends BaseTestConfiguration {
 
     private final WebDriver driver;
-    private InboxPage inboxPage;
+    private FolderPage inboxPage;
 
     public InboxTest(WebDriverSupplier driverSupplier) {
         this.driver = driverSupplier.get();

@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.Mailbox;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
-import ru.ifmo.se.testing.zavoduben.lab3.pages.InboxPage;
+import ru.ifmo.se.testing.zavoduben.lab3.pages.FolderPage;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.LoginPage;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
@@ -39,7 +39,7 @@ public class LoginTest extends BaseTestConfiguration {
     public void loginPositive() {
         User user = UserFixtures.getAnyUser();
 
-        InboxPage inboxPage = loginPage.loginAs(user);
+        FolderPage inboxPage = loginPage.loginAs(user);
         assertEquals(user.getEmailAddress(), inboxPage.getCurrentUserEmail());
     }
 

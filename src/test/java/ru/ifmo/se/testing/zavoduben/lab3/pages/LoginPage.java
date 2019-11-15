@@ -100,14 +100,14 @@ public class LoginPage {
         return this;
     }
 
-    public InboxPage submitPassword() {
+    public FolderPage submitPassword() {
         switchToLoginFrame();
 
         By byXPath = By.xpath("//button[@type='submit']");
         WebElement submitButton = driver.findElement(byXPath);
         submitButton.click();
 
-        return new InboxPage(driver);
+        return new FolderPage(driver);
     }
 
     public LoginPage submitPasswordExpectingError() {
@@ -129,7 +129,7 @@ public class LoginPage {
         return errorMessageLabel.getText();
     }
 
-    public InboxPage loginAs(User user) {
+    public FolderPage loginAs(User user) {
         LoginPage loginPage = LoginPage.open(driver);
 
         loginPage.typeUsername(user.getUsername());
