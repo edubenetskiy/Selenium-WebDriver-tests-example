@@ -30,7 +30,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M3</version>
                 <configuration>
-                    <threadCount>4</threadCount>
+                    <useUnlimitedThreads>true</useUnlimitedThreads>
                     <parallel>all</parallel>
                 </configuration>
             </plugin>
