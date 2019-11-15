@@ -3,14 +3,18 @@ package ru.ifmo.se.testing.zavoduben.lab3.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.Domain;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.Mailbox;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.util.Constants;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+
 public class LoginPage {
 
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     public static LoginPage open(WebDriver driver) {
         driver.get(Constants.BASE_URL + "/login");
@@ -19,6 +23,7 @@ public class LoginPage {
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, 10);
         // TODO: Check that this is the login page and throw IllegalStateException if it's not
     }
 
@@ -86,6 +91,9 @@ public class LoginPage {
 
         By byXPath = By.xpath("//input[@name='Password']");
         WebElement loginField = driver.findElement(byXPath);
+
+        wait.until(visibilityOf(loginField));
+
         loginField.clear();
         loginField.sendKeys(password);
 

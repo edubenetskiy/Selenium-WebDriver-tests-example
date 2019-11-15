@@ -9,10 +9,12 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
+import ru.ifmo.se.testing.zavoduben.lab3.pages.ComposePage;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.InboxPage;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.LoginPage;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 @RunWith(Parameterized.class)
@@ -20,6 +22,7 @@ public class ComposeTest extends BaseTestConfiguration {
 
     private final WebDriver driver;
     private InboxPage inboxPage;
+    private ComposePage composePage;
 
     public ComposeTest(WebDriverSupplier driverSupplier) {
         this.driver = driverSupplier.get();
@@ -30,6 +33,7 @@ public class ComposeTest extends BaseTestConfiguration {
         User user = UserFixtures.getAnyUser();
         LoginPage loginPage = LoginPage.open(driver);
         this.inboxPage = loginPage.loginAs(user);
+        this.composePage = inboxPage.compose();
     }
 
     @After
@@ -37,10 +41,13 @@ public class ComposeTest extends BaseTestConfiguration {
         driver.quit();
     }
 
-    @Ignore
     @Test
     public void cannotSendEmptyWithoutRecipient() {
-        fail();
+        String errorMessage = composePage
+                .sendExpectingError()
+                .getErrorMessage();
+
+        assertEquals("Не указан адрес получателя", errorMessage);
     }
 
     @Ignore
