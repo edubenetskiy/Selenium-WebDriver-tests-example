@@ -23,7 +23,7 @@ tasks.withType(JavaCompile) {
 
 test {
     useJUnit() {
-        maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+        maxParallelForks = Runtime.runtime.availableProcessors()
     }
     testLogging {
         events "passed", "skipped", "failed"
