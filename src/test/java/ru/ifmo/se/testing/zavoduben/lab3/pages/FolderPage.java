@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
-import ru.ifmo.se.testing.zavoduben.lab3.util.Constants;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElement;
@@ -21,9 +20,13 @@ public class FolderPage {
         this.wait = new WebDriverWait(this.driver, 10);
     }
 
-    public static FolderPage openInbox(WebDriver driver) {
-        driver.get(Constants.BASE_URL + "/messages/inbox");
+    public static FolderPage open(Folder folder, WebDriver driver) {
+        driver.get(folder.getUrl());
         return new FolderPage(driver);
+    }
+
+    public static FolderPage openInbox(WebDriver driver) {
+        return open(Folder.INBOX, driver);
     }
 
     public static FolderPage openLoggedInAs(User user, WebDriver driver) {
@@ -76,5 +79,9 @@ public class FolderPage {
         composeButton.click();
 
         return new ComposePage(driver);
+    }
+
+    public FolderPage goToFolder(Folder folder) {
+        return folder.open(driver); // TODO: Click on nav menu, not open URL
     }
 }
