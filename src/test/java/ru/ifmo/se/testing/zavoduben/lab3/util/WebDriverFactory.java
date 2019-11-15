@@ -17,8 +17,8 @@ class WebDriverFactory {
     private static final int IMPLICIT_WAIT_SECONDS = 30;
 
     static {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/web-drivers/ChromeDriver.exe");
-        System.setProperty("webdriver.gecko.driver", "src/test/resources/web-drivers/GeckoDriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/web-drivers/win/ChromeDriver.exe");
+        System.setProperty("webdriver.gecko.driver", "src/test/resources/web-drivers/win/GeckoDriver.exe");
     }
 
     static ChromeDriver makeChromeDriver() {
