@@ -8,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.GeckoDriverService;
 
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 class WebDriverFactory {
@@ -22,14 +23,20 @@ class WebDriverFactory {
 
     static ChromeDriver makeChromeDriver() {
         ChromeDriverService chromeDriverService = ChromeDriverService.createDefaultService();
-        ChromeOptions chromeOptions = new ChromeOptions().addArguments("--incognito");
+        ChromeOptions chromeOptions = new ChromeOptions()
+                .addArguments("--incognito")
+                .addArguments("--lang=ru")
+                .setExperimentalOption("prefs",
+                        Collections.singletonMap("intl.accept_languages", "ru"));
         ChromeDriver webDriver = new ChromeDriver(chromeDriverService, chromeOptions);
         return configureWebDriver(webDriver);
     }
 
     static FirefoxDriver makeFirefoxDriver() {
         GeckoDriverService geckoDriverService = GeckoDriverService.createDefaultService();
-        FirefoxOptions firefoxOptions = new FirefoxOptions().addArguments("-private-window");
+        FirefoxOptions firefoxOptions = new FirefoxOptions()
+                .addArguments("-private-window")
+                .addPreference("intl.accept_languages", "ru-RU");
         FirefoxDriver webDriver = new FirefoxDriver(geckoDriverService, firefoxOptions);
         return configureWebDriver(webDriver);
     }
