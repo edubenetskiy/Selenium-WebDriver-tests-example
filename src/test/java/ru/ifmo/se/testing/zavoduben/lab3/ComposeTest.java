@@ -7,12 +7,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
+import ru.ifmo.se.testing.zavoduben.lab3.fixtures.SubjectFixtures;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.*;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -64,8 +64,7 @@ public class ComposeTest extends BaseTestConfiguration {
 
     @Test
     public void savingComposedMessagePutsItToDraftBox() {
-        LocalDateTime time = LocalDateTime.now();
-        String messageSubject = "A saved draft message " + time.toString();
+        String messageSubject = SubjectFixtures.getFakeSubject();
 
         FolderPage inboxPage = composePage
                 .typeSubject(messageSubject)
