@@ -50,17 +50,6 @@ public class ComposeTest extends BaseTestConfiguration {
         assertEquals("Не указан адрес получателя", errorMessage);
     }
 
-    @Ignore
-    @Test
-    public void closingDoesNotSaveDraft() {
-        fail();
-    }
-
-    @Ignore
-    @Test
-    public void discardingDoesNotSaveDraft() {
-        fail();
-    }
 
     @Test
     public void savingComposedMessagePutsItToDraftBox() {
@@ -129,21 +118,4 @@ public class ComposeTest extends BaseTestConfiguration {
         assertEquals(messageText, envelope.get().openToRead().getBody());
     }
 
-    @Ignore
-    @Test
-    public void sendPositiveTwoRecipients() {
-        fail();
-    }
-
-    @Ignore
-    @Test
-    public void sendPositiveRecipientAndCarbonCopy() {
-        fail();
-    }
-
-    @Ignore
-    @Test
-    public void sendPositiveRecipientAndBlindCarbonCopy() {
-        fail();
-    }
 }
