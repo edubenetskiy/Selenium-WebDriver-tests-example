@@ -70,7 +70,7 @@ public class FolderPage {
         return this;
     }
 
-    public MessagePage getAnyMessage() {
+    public MessagePage openAnyMessage() {
         By byXPath = By.xpath("//div[contains(@class, 'js-letter-list-item')]");
         List<WebElement> messageItems = driver.findElements(byXPath);
 
