@@ -46,4 +46,9 @@ public class Envelope {
     WebElement getElement() {
         return element;
     }
+
+    public MessagePage openToRead() {
+        element.click();
+        return new MessagePage(folderPage.getDriver());
+    }
 }
