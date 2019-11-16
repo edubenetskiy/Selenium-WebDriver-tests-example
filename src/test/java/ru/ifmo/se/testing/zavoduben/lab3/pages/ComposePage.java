@@ -87,7 +87,9 @@ public class ComposePage {
     }
 
     public ComposePage typeBody(String messageText) {
-        // TODO: Type message body
+        WebElement bodyEditor = driver.findElement(By.xpath("//div[contains(@class,'cke_editable_inline')]"));
+        bodyEditor.click();
+        bodyEditor.sendKeys(messageText);
         return this;
     }
 }
