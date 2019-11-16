@@ -20,6 +20,8 @@ public class FolderPage {
     private FolderPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(this.driver, 10);
+        driver.switchTo().defaultContent();
+        wait.until(invisibilityOfElementLocated(By.xpath("//*[@id='app-loader']")));
     }
 
     public static FolderPage open(Folder folder, WebDriver driver) {
@@ -79,7 +81,6 @@ public class FolderPage {
 
         WebElement composeButton = driver.findElement(byXPath);
 
-        wait.until(invisibilityOfElementLocated(By.xpath("//*[@id='app-loader']")));
         wait.until(elementToBeClickable(composeButton));
 
         composeButton.click();

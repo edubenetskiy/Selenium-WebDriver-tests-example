@@ -12,6 +12,8 @@ import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.*;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
+import java.util.Optional;
+
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -84,8 +86,12 @@ public class MessageTest extends BaseTestConfiguration {
         FolderPage newSpamPage = messagePage.remove();
 
         FolderPage trashPage = newSpamPage.goToFolder(Folder.TRASH);
-        Envelope recentlyRemovedMessage = trashPage.getEnvelopes().get(0);
-        assertEquals(subject, recentlyRemovedMessage.getSubject());
+
+        Optional<Envelope> envelope = trashPage.getEnvelopes().stream()
+                .filter(it -> it.getSubject().equals(subject))
+                .findAny();
+
+        assertTrue(envelope.isPresent());
     }
 
     @Test
