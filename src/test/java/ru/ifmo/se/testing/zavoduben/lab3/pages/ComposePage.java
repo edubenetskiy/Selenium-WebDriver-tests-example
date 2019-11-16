@@ -1,6 +1,7 @@
 package ru.ifmo.se.testing.zavoduben.lab3.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -93,14 +94,13 @@ public class ComposePage {
     }
 
     public ComposePage typeBody(String messageText) {
-        WebElement firstLineOfBody = driver.findElement(
-                By.xpath("//div[contains(@class,'editable-container-')]/div[1]/div[1]"));
-        // todo: deletes whole contents, including single empty line
-        firstLineOfBody.clear();
-
         WebElement bodyEditor = driver.findElement(
-                By.xpath("//div[contains(@class,'editable-container-')]/div[1]/div[1]"));
-        bodyEditor.sendKeys(messageText);
+                By.xpath("//div[contains(@class,'cke_editable_inline')]"));
+
+        JavascriptExecutor js = (JavascriptExecutor) this.driver;
+        String script = "arguments[0].innerText = arguments[1]";
+        js.executeScript(script, bodyEditor, messageText);
+
         return this;
     }
 }
