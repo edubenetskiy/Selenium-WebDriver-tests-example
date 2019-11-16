@@ -91,7 +91,7 @@ public class FolderPage {
 
         WebElement composeButton = driver.findElement(byXPath);
 
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@id='app-loader']")));
+        wait.until(invisibilityOfElementLocated(By.xpath("//*[@id='app-loader']")));
         wait.until(elementToBeClickable(composeButton));
 
         composeButton.click();
@@ -119,7 +119,16 @@ public class FolderPage {
                          "]"));
 
         return messageElements.stream()
-                .map(Envelope::from)
+                .map((WebElement element) -> Envelope.from(this, element))
                 .collect(Collectors.toList());
+    }
+
+    public MessagePage openEnvelope(Envelope envelope) {
+        envelope.getElement().click();
+        return new MessagePage(driver);
+    }
+
+    WebDriver getDriver() {
+        return driver;
     }
 }

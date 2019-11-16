@@ -14,6 +14,7 @@ import ru.ifmo.se.testing.zavoduben.lab3.pages.*;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -78,10 +79,15 @@ public class ComposeTest extends BaseTestConfiguration {
         FolderPage draftsPage = inboxPage.goToFolder(Folder.DRAFTS);
         List<Envelope> drafts = draftsPage.getEnvelopes();
 
+        Optional<Envelope> envelope = drafts.stream()
+                .filter(it -> messageSubject.equals(it.getSubject()) &&
+                              it.getRecipient().contains(recipientAddress))
+                .findAny();
+
         // TODO: Check creation time
-        assertTrue(drafts.stream()
-                .anyMatch(it -> messageSubject.equals(it.getSubject()) &&
-                                it.getRecipient().contains(recipientAddress)));
+        assertTrue(envelope.isPresent());
+
+        assertEquals(messageText, envelope.get().openToCompose().getBody());
     }
 
     @Ignore

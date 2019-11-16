@@ -86,9 +86,20 @@ public class ComposePage {
         return this;
     }
 
+    public String getBody() {
+        WebElement bodyEditor = driver.findElement(
+                By.xpath("//div[contains(@class,'editable-container-')]"));
+        return bodyEditor.getText();
+    }
+
     public ComposePage typeBody(String messageText) {
-        WebElement bodyEditor = driver.findElement(By.xpath("//div[contains(@class,'cke_editable_inline')]"));
-        bodyEditor.click();
+        WebElement firstLineOfBody = driver.findElement(
+                By.xpath("//div[contains(@class,'editable-container-')]/div[1]/div[1]"));
+        // todo: deletes whole contents, including single empty line
+        firstLineOfBody.clear();
+
+        WebElement bodyEditor = driver.findElement(
+                By.xpath("//div[contains(@class,'editable-container-')]/div[1]/div[1]"));
         bodyEditor.sendKeys(messageText);
         return this;
     }
