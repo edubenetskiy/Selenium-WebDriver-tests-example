@@ -71,6 +71,9 @@ public class MessageTest extends BaseTestConfiguration {
 
     @Test
     public void unmarkAsSpamMovesToInbox() {
+        // Ensure there is at least one message in SPAM folder
+        FolderPage inboxPage = this.inboxPage.getEnvelopes().get(0).openToRead().markAsSpam();
+
         FolderPage spamPage = inboxPage.goToFolder(Folder.SPAM);
         Envelope envelop = spamPage.getAnyEnvelope();
         String subject = envelop.getSubject();
