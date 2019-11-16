@@ -66,6 +66,7 @@ public class ComposeTest extends BaseTestConfiguration {
     public void savingComposedMessagePutsItToDraftBox() {
         String messageSubject = SubjectFixtures.getFakeSubject();
 
+        // TODO: Type message body
         FolderPage inboxPage = composePage
                 .typeSubject(messageSubject)
                 .saveDraft().closeModal();
