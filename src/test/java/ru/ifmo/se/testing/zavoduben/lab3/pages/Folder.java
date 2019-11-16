@@ -8,6 +8,7 @@ public enum Folder {
     DRAFTS("/drafts/"),
     TRASH("/trash/"),
     SENT("/sent/"),
+    SPAM("/spam/"),
     ;
 
     private final String path;
