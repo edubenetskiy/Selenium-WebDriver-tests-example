@@ -14,9 +14,13 @@ public class ComposePage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    ComposePage(WebDriver driver) {
+    private ComposePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 10);
+    }
+
+    public static ComposePage assumeOpen(WebDriver driver) {
+        return new ComposePage(driver);
     }
 
     public LayerSentPage send() {
@@ -27,6 +31,11 @@ public class ComposePage {
     public ComposePage sendExpectingError() {
         findSendButton().click();
         return this;
+    }
+
+    public LayerQuestionPage sendExpectingQuestion() {
+        findSendButton().click();
+        return LayerQuestionPage.assumeOpen(driver);
     }
 
     private WebElement findSendButton() {

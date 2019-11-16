@@ -40,7 +40,7 @@ public class Envelope {
 
     public ComposePage openToCompose() {
         element.click();
-        return new ComposePage(folderPage.getDriver());
+        return ComposePage.assumeOpen(folderPage.getDriver());
     }
 
     WebElement getElement() {

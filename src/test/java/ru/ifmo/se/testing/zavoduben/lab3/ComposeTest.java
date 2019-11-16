@@ -23,7 +23,6 @@ import static org.junit.Assert.*;
 public class ComposeTest extends BaseTestConfiguration {
 
     private final WebDriver driver;
-    private FolderPage inboxPage;
     private ComposePage composePage;
 
     public ComposeTest(WebDriverSupplier driverSupplier) {
@@ -34,8 +33,7 @@ public class ComposeTest extends BaseTestConfiguration {
     public void logInAndOpenInbox() {
         User user = UserFixtures.getAnyUser();
         LoginPage loginPage = LoginPage.open(driver);
-        this.inboxPage = loginPage.loginAs(user);
-        this.composePage = inboxPage.compose();
+        this.composePage = loginPage.loginAs(user).compose();
     }
 
     @After
@@ -90,10 +88,18 @@ public class ComposeTest extends BaseTestConfiguration {
         assertEquals(messageText, envelope.get().openToCompose().getBody());
     }
 
-    @Ignore
     @Test
-    public void sendingWithoutSubjectRaisesQuestion() {
-        fail();
+    public void sendingWithoutBodyRaisesQuestion() {
+        String messageSubject = SubjectFixtures.getFakeSubject();
+        String recipientAddress = UserFixtures.getAnyUser().getEmailAddress();
+
+        LayerQuestionPage questionPage = composePage
+                .typeRecipient(recipientAddress)
+                .typeSubject(messageSubject)
+                .sendExpectingQuestion();
+
+        assertEquals("Вы действительно хотите отправить пустое письмо?",
+                questionPage.getQuestionText());
     }
 
     @Test

@@ -84,7 +84,7 @@ public class FolderPage {
 
         composeButton.click();
 
-        return new ComposePage(driver);
+        return ComposePage.assumeOpen(driver);
     }
 
     public FolderPage goToFolder(Folder folder) {
