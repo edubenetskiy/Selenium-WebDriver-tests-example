@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
@@ -67,6 +68,17 @@ public class FolderPage {
     public FolderPage removeAllMessages() {
         // TODO: Implement selecting and removing all messages
         return this;
+    }
+
+    public MessagePage getAnyMessage() {
+        By byXPath = By.xpath("//div[contains(@class, 'js-letter-list-item')]");
+        List<WebElement> messageItems = driver.findElements(byXPath);
+
+        WebElement messageItem = messageItems.get(new Random().nextInt(messageItems.size()));
+        wait.until(elementToBeClickable(messageItem));
+        messageItem.click();
+
+        return new MessagePage(this.driver);
     }
 
     public ComposePage compose() {
