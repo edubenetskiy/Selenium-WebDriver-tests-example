@@ -51,7 +51,14 @@ public class MessageTest extends BaseTestConfiguration {
 
     @Test
     public void markMessageAsSpam() {
-        fail();
+        Envelope envelop = inboxPage.getAnyEnvelope();
+        String subject = envelop.getSubject();
+        MessagePage messagePage = inboxPage.openEnvelope(envelop);
+        FolderPage inboxPage = messagePage.markAsSpam();
+
+        FolderPage spamPage = inboxPage.goToFolder(Folder.SPAM);
+        Envelope recentlyMarkedMessage = spamPage.getEnvelopes().get(0);
+        assertEquals(subject, recentlyMarkedMessage.getSubject());
     }
 
     @Test
