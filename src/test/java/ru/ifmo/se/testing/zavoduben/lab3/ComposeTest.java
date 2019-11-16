@@ -73,6 +73,8 @@ public class ComposeTest extends BaseTestConfiguration {
         FolderPage draftsPage = inboxPage.goToFolder(Folder.DRAFTS);
         List<Envelope> drafts = draftsPage.getEnvelopes();
 
+        // TODO: Check creation time
+        // TODO: Check recipient
         assertTrue(drafts.stream().anyMatch(it ->
                 messageSubject.equals(it.getSubject())
         ));
