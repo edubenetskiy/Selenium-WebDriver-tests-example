@@ -14,6 +14,7 @@ import ru.ifmo.se.testing.zavoduben.lab3.pages.*;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -65,20 +66,22 @@ public class ComposeTest extends BaseTestConfiguration {
     @Test
     public void savingComposedMessagePutsItToDraftBox() {
         String messageSubject = SubjectFixtures.getFakeSubject();
+        String recipientAddress = UserFixtures.getAnyUser().getEmailAddress();
+        String messageText = UUID.randomUUID().toString();
 
-        // TODO: Type message body
         FolderPage inboxPage = composePage
+                .typeRecipient(recipientAddress)
                 .typeSubject(messageSubject)
+                .typeBody(messageText)
                 .saveDraft().closeModal();
 
         FolderPage draftsPage = inboxPage.goToFolder(Folder.DRAFTS);
         List<Envelope> drafts = draftsPage.getEnvelopes();
 
         // TODO: Check creation time
-        // TODO: Check recipient
-        assertTrue(drafts.stream().anyMatch(it ->
-                messageSubject.equals(it.getSubject())
-        ));
+        assertTrue(drafts.stream()
+                .anyMatch(it -> messageSubject.equals(it.getSubject()) &&
+                                it.getRecipient().contains(recipientAddress)));
     }
 
     @Ignore

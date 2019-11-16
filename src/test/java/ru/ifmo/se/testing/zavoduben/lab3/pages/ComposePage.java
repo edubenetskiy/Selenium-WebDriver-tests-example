@@ -78,4 +78,16 @@ public class ComposePage {
         subjectField.sendKeys(subject);
         return this;
     }
+
+    public ComposePage typeRecipient(String recipientAddress) {
+        WebElement subjectField = driver.findElement(By.xpath("//div[contains(@class,'contactsContainer')]//input"));
+        subjectField.clear();
+        subjectField.sendKeys(recipientAddress);
+        return this;
+    }
+
+    public ComposePage typeBody(String messageText) {
+        // TODO: Type message body
+        return this;
+    }
 }
