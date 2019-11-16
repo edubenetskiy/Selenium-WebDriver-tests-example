@@ -34,7 +34,7 @@ public class MessagePage {
         return FolderPage.assumeOpen(this.driver);
     }
 
-    public FolderPage remove(){
+    public FolderPage remove() {
         By byXPath = By.xpath("//div[contains(@class, 'portal-menu-element_remove')]");
         WebElement removeButton = driver.findElement(byXPath);
         wait.until(elementToBeClickable(removeButton));
