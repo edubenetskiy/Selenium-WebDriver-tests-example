@@ -2,7 +2,6 @@ package ru.ifmo.se.testing.zavoduben.lab3;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -15,7 +14,6 @@ import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 import java.util.Optional;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.fail;
 
 @RunWith(Parameterized.class)
 public class MessageTest extends BaseTestConfiguration {
