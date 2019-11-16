@@ -9,11 +9,11 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
-import ru.ifmo.se.testing.zavoduben.lab3.pages.FolderPage;
-import ru.ifmo.se.testing.zavoduben.lab3.pages.LoginPage;
+import ru.ifmo.se.testing.zavoduben.lab3.pages.*;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class MessageTest extends BaseTestConfiguration {
@@ -37,22 +37,28 @@ public class MessageTest extends BaseTestConfiguration {
         driver.quit();
     }
 
-    @Ignore
     @Test
     public void removeFromInboxMovesToTrash() {
-        /*
-        MessagePage messagePage = inboxPage.openAnyMessage();
-        String subject = messagePage.getSubject();
-        InboxPage inboxPage = messagePage.remove();
+        Envelope envelop = inboxPage.getAnyEnvelope();
+        String subject = envelop.getSubject();
+        MessagePage messagePage = inboxPage.openEnvelope(envelop);
+        FolderPage inboxPage = messagePage.remove();
 
-        TrashPage trashPage = inboxPage.goToFolder(Folder.TRASH);
-        MessageSummary recentlyRemovedMessage = trashPage.getMessageSummaries().first();
-        assertEquals(subject, recentlyRemovedMessage.getSummary)
-         */
+        FolderPage trashPage = inboxPage.goToFolder(Folder.TRASH);
+        Envelope recentlyRemovedMessage = trashPage.getEnvelopes().get(0);
+        assertEquals(subject, recentlyRemovedMessage.getSubject());
+    }
+
+    @Test
+    public void markMessageAsSpam() {
         fail();
     }
 
-    @Ignore
+    @Test
+    public void removeFromSpamMovesToTrash() {
+        fail();
+    }
+
     @Test
     public void removeFromTrashDeletesPermanently() {
         fail();
