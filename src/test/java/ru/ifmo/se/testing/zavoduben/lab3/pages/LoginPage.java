@@ -107,7 +107,7 @@ public class LoginPage {
         WebElement submitButton = driver.findElement(byXPath);
         submitButton.click();
 
-        return new FolderPage(driver);
+        return FolderPage.assumeOpen(driver);
     }
 
     public LoginPage submitPasswordExpectingError() {

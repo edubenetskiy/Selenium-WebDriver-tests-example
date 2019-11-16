@@ -1,7 +1,6 @@
 package ru.ifmo.se.testing.zavoduben.lab3.pages;
 
 import org.openqa.selenium.WebDriver;
-import ru.ifmo.se.testing.zavoduben.lab3.pages.FolderPage;
 import ru.ifmo.se.testing.zavoduben.lab3.util.Constants;
 
 public enum Folder {
@@ -23,5 +22,9 @@ public enum Folder {
 
     public String getUrl() {
         return Constants.BASE_URL + path;
+    }
+
+    public String getPath() {
+        return path;
     }
 }

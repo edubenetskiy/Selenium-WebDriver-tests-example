@@ -8,14 +8,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
-import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElement;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class FolderPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    FolderPage(WebDriver driver) {
+    private FolderPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(this.driver, 10);
     }
@@ -31,6 +33,10 @@ public class FolderPage {
 
     public static FolderPage openLoggedInAs(User user, WebDriver driver) {
         return LoginPage.open(driver).loginAs(user);
+    }
+
+    static FolderPage assumeOpen(WebDriver driver) {
+        return new FolderPage(driver);
     }
 
     public String getCurrentUserEmail() {
@@ -82,6 +88,26 @@ public class FolderPage {
     }
 
     public FolderPage goToFolder(Folder folder) {
-        return folder.open(driver); // TODO: Click on nav menu, not open URL
+        By byXPath = By.xpath("//a[contains(@href,'" + folder.getPath() + "')]");
+        WebElement linkToFolder = driver.findElement(byXPath);
+        wait.until(elementToBeClickable(linkToFolder));
+        linkToFolder.click();
+
+        ExpectedCondition<Boolean> folderIsLoaded = attributeContains(linkToFolder, "class", "nav__item_active");
+        wait.until(folderIsLoaded);
+
+        return FolderPage.assumeOpen(driver);
+    }
+
+    public List<Envelope> getEnvelopes() {
+        List<WebElement> messageElements = driver.findElements(
+                By.xpath(".//a[" +
+                         "  contains(concat(' ',normalize-space(@class),' ')," +
+                         "           ' llc ')" +
+                         "]"));
+
+        return messageElements.stream()
+                .map(Envelope::from)
+                .collect(Collectors.toList());
     }
 }

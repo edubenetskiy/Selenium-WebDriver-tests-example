@@ -3,10 +3,10 @@ package ru.ifmo.se.testing.zavoduben.lab3.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 public class ComposePage {
 
@@ -20,7 +20,7 @@ public class ComposePage {
 
     public ComposePage sendExpectingError() {
         By byXPath = By.xpath(
-                ".//span[" +
+                "//span[" +
                 "   contains(concat(' ',normalize-space(@class),' '),' button2 ')" +
                 "   and .//span[" +
                 "       contains(concat(' ',normalize-space(@class),' ')," +
@@ -40,5 +40,42 @@ public class ComposePage {
                               "//div[contains(@class, 'rowError--')]");
         WebElement errorLabel = wait.until(visibilityOfElementLocated(byXPath));
         return errorLabel.getText();
+    }
+
+    public ComposePage saveDraft() {
+        By byXPath = By.xpath(
+                "//span[" +
+                "   contains(concat(' ',normalize-space(@class),' '),' button2 ')" +
+                "   and .//span[" +
+                "       contains(concat(' ',normalize-space(@class),' ')," +
+                "                ' button2__txt ') " +
+                "       and contains(text(), \"Сохранить\")" +
+                "   ]" +
+                "]");
+        WebElement saveButton = driver.findElement(byXPath);
+        wait.until(elementToBeClickable(saveButton))
+                .click();
+
+        return this;
+    }
+
+    public FolderPage closeModal() {
+        By byXPath = By.xpath("//button[@title='Закрыть']");
+        WebElement closeButton = driver.findElement(byXPath);
+        wait.until(elementToBeClickable(closeButton));
+        closeButton.click();
+
+        ExpectedCondition<Boolean> dimmerIsHidden =
+                invisibilityOfElementLocated(By.xpath("//*[@id='dimmer']"));
+        wait.until(dimmerIsHidden);
+
+        return FolderPage.assumeOpen(driver);
+    }
+
+    public ComposePage typeSubject(String subject) {
+        WebElement subjectField = driver.findElement(By.xpath("//input[@name='Subject']"));
+        subjectField.clear();
+        subjectField.sendKeys(subject);
+        return this;
     }
 }

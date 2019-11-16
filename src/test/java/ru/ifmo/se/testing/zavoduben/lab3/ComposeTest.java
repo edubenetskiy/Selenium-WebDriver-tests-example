@@ -9,13 +9,13 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.User;
 import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
-import ru.ifmo.se.testing.zavoduben.lab3.pages.ComposePage;
-import ru.ifmo.se.testing.zavoduben.lab3.pages.FolderPage;
-import ru.ifmo.se.testing.zavoduben.lab3.pages.LoginPage;
+import ru.ifmo.se.testing.zavoduben.lab3.pages.*;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
 public class ComposeTest extends BaseTestConfiguration {
@@ -62,10 +62,21 @@ public class ComposeTest extends BaseTestConfiguration {
         fail();
     }
 
-    @Ignore
     @Test
     public void savingComposedMessagePutsItToDraftBox() {
-        fail();
+        LocalDateTime time = LocalDateTime.now();
+        String messageSubject = "A saved draft message " + time.toString();
+
+        FolderPage inboxPage = composePage
+                .typeSubject(messageSubject)
+                .saveDraft().closeModal();
+
+        FolderPage draftsPage = inboxPage.goToFolder(Folder.DRAFTS);
+        List<Envelope> drafts = draftsPage.getEnvelopes();
+
+        assertTrue(drafts.stream().anyMatch(it ->
+                messageSubject.equals(it.getSubject())
+        ));
     }
 
     @Ignore
