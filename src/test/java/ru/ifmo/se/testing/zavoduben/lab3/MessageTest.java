@@ -15,7 +15,6 @@ import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 import java.util.Optional;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 @RunWith(Parameterized.class)
@@ -48,8 +47,12 @@ public class MessageTest extends BaseTestConfiguration {
         FolderPage inboxPage = messagePage.remove();
 
         FolderPage trashPage = inboxPage.goToFolder(Folder.TRASH);
-        Envelope recentlyRemovedMessage = trashPage.getEnvelopes().get(0);
-        assertEquals(subject, recentlyRemovedMessage.getSubject());
+
+        Optional<Envelope> envelope = trashPage.getEnvelopes().stream()
+                .filter(it -> it.getSubject().equals(subject))
+                .findAny();
+
+        assertTrue(envelope.isPresent());
     }
 
     @Test
@@ -60,8 +63,12 @@ public class MessageTest extends BaseTestConfiguration {
         FolderPage inboxPage = messagePage.markAsSpam();
 
         FolderPage spamPage = inboxPage.goToFolder(Folder.SPAM);
-        Envelope recentlyMarkedMessage = spamPage.getEnvelopes().get(0);
-        assertEquals(subject, recentlyMarkedMessage.getSubject());
+
+        Optional<Envelope> envelope = spamPage.getEnvelopes().stream()
+                .filter(it -> it.getSubject().equals(subject))
+                .findAny();
+
+        assertTrue(envelope.isPresent());
     }
 
     @Test
@@ -70,11 +77,13 @@ public class MessageTest extends BaseTestConfiguration {
         Envelope envelop = spamPage.getAnyEnvelope();
         String subject = envelop.getSubject();
         MessagePage messagePage = spamPage.openEnvelope(envelop);
-        FolderPage newInboxPage = messagePage.unmarkAsSpam();
+        FolderPage newInboxPage = messagePage.unmarkAsSpam().goToFolder(Folder.INBOX);
 
-        FolderPage trashPage = newInboxPage.goToFolder(Folder.TRASH);
-        Envelope recentlyRemovedMessage = trashPage.getEnvelopes().get(0);
-        assertEquals(subject, recentlyRemovedMessage.getSubject());
+        Optional<Envelope> envelope = newInboxPage.getEnvelopes().stream()
+                .filter(it -> it.getSubject().equals(subject))
+                .findAny();
+
+        assertTrue(envelope.isPresent());
     }
 
     @Test
@@ -101,8 +110,9 @@ public class MessageTest extends BaseTestConfiguration {
         String subject = envelop.getSubject();
         MessagePage messagePage = trashPage.openEnvelope(envelop);
         FolderPage newTrashPage = messagePage.remove();
-        // TODO EGOR HELP!
-        assertTrue(true);
+
+        assertTrue(newTrashPage.getEnvelopes().stream()
+                .noneMatch(it -> it.getSubject().equals(subject)));
     }
 
     @Ignore

@@ -19,7 +19,7 @@ public class FolderPage {
 
     private FolderPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(this.driver, 10);
+        this.wait = new WebDriverWait(this.driver, 15);
         driver.switchTo().defaultContent();
         wait.until(invisibilityOfElementLocated(By.xpath("//*[@id='app-loader']")));
     }
