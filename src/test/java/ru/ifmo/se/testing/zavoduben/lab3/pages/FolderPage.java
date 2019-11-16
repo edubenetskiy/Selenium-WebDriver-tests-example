@@ -69,17 +69,6 @@ public class FolderPage {
         return this;
     }
 
-    public MessagePage openAnyMessage() {
-        By byXPath = By.xpath("//div[contains(@class, 'js-letter-list-item')]");
-        List<WebElement> messageItems = driver.findElements(byXPath);
-
-        WebElement messageItem = messageItems.get(new Random().nextInt(messageItems.size()));
-        wait.until(elementToBeClickable(messageItem));
-        messageItem.click();
-
-        return new MessagePage(this.driver);
-    }
-
     public ComposePage compose() {
         driver.switchTo().defaultContent();
 
@@ -120,6 +109,11 @@ public class FolderPage {
         return messageElements.stream()
                 .map((WebElement element) -> Envelope.from(this, element))
                 .collect(Collectors.toList());
+    }
+
+    public Envelope getAnyEnvelope() {
+        List<Envelope> envelopes = getEnvelopes();
+        return envelopes.get(new Random().nextInt(envelopes.size()));
     }
 
     public MessagePage openEnvelope(Envelope envelope) {
