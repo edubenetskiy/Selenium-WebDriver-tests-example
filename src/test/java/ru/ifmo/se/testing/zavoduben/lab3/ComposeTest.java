@@ -96,10 +96,31 @@ public class ComposeTest extends BaseTestConfiguration {
         fail();
     }
 
-    @Ignore
     @Test
     public void sendPositiveOneRecipient() {
-        fail();
+        String messageSubject = SubjectFixtures.getFakeSubject();
+        String recipientAddress = UserFixtures.getAnyUser().getEmailAddress();
+        String messageText = UUID.randomUUID().toString();
+
+        LayerSentPage layerSentPage = composePage
+                .typeRecipient(recipientAddress)
+                .typeSubject(messageSubject)
+                .typeBody(messageText)
+                .send();
+
+        assertEquals("Письмо отправлено", layerSentPage.getHeaderText());
+        FolderPage inboxPage = layerSentPage.closeModal();
+
+        FolderPage sentPage = inboxPage.goToFolder(Folder.SENT);
+        List<Envelope> sentMessages = sentPage.getEnvelopes();
+
+        Optional<Envelope> envelope = sentMessages.stream()
+                .filter(it -> messageSubject.equals(it.getSubject()) &&
+                              it.getRecipient().contains(recipientAddress))
+                .findAny();
+
+        assertTrue(envelope.isPresent());
+        assertEquals(messageText, envelope.get().openToRead().getBody());
     }
 
     @Ignore

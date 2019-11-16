@@ -19,7 +19,17 @@ public class ComposePage {
         this.wait = new WebDriverWait(driver, 10);
     }
 
+    public LayerSentPage send() {
+        findSendButton().click();
+        return LayerSentPage.assumeOpen(driver);
+    }
+
     public ComposePage sendExpectingError() {
+        findSendButton().click();
+        return this;
+    }
+
+    private WebElement findSendButton() {
         By byXPath = By.xpath(
                 "//span[" +
                 "   contains(concat(' ',normalize-space(@class),' '),' button2 ')" +
@@ -30,10 +40,7 @@ public class ComposePage {
                 "   ]" +
                 "]");
         WebElement sendButton = driver.findElement(byXPath);
-        wait.until(elementToBeClickable(sendButton));
-
-        sendButton.click();
-        return this;
+        return wait.until(elementToBeClickable(sendButton));
     }
 
     public String getErrorMessage() {
@@ -66,11 +73,16 @@ public class ComposePage {
         wait.until(elementToBeClickable(closeButton));
         closeButton.click();
 
-        ExpectedCondition<Boolean> dimmerIsHidden =
-                invisibilityOfElementLocated(By.xpath("//*[@id='dimmer']"));
-        wait.until(dimmerIsHidden);
+        waitDimmerToHide();
 
         return FolderPage.assumeOpen(driver);
+    }
+
+    private void waitDimmerToHide() {
+        By byXPath = By.xpath("//*[@id='dimmer' or @class='dimmer']");
+        ExpectedCondition<Boolean> dimmerIsHidden =
+                invisibilityOfElementLocated(byXPath);
+        wait.until(dimmerIsHidden);
     }
 
     public ComposePage typeSubject(String subject) {

@@ -43,4 +43,9 @@ public class MessagePage {
         return FolderPage.assumeOpen(this.driver);
     }
 
+    public String getBody() {
+        By byXPath = By.xpath("//div[contains(@class, 'letter-body__body-wrapper')]");
+        WebElement letterBody = driver.findElement(byXPath);
+        return letterBody.getText();
+    }
 }
