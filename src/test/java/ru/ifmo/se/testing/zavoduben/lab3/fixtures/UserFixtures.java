@@ -23,7 +23,7 @@ public class UserFixtures {
     }
 
     public static User getAnyUser() {
-        TomlTable userTable = USERS.getTable("users").getTable("alice");
+        TomlTable userTable = USERS.getTable("users").getTable("max");
         Domain domain = Domain.getByName(userTable.getString("domain"));
         Mailbox mailbox = new Mailbox(userTable.getString("login"), domain);
         return new User(
