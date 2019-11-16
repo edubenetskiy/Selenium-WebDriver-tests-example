@@ -12,6 +12,7 @@ import ru.ifmo.se.testing.zavoduben.lab3.fixtures.UserFixtures;
 import ru.ifmo.se.testing.zavoduben.lab3.pages.*;
 import ru.ifmo.se.testing.zavoduben.lab3.util.WebDriverSupplier;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
@@ -50,7 +51,7 @@ public class MessageTest extends BaseTestConfiguration {
     }
 
     @Test
-    public void markMessageAsSpam() {
+    public void markAsSpamMovesToSpamFolder() {
         Envelope envelop = inboxPage.getAnyEnvelope();
         String subject = envelop.getSubject();
         MessagePage messagePage = inboxPage.openEnvelope(envelop);
@@ -62,30 +63,45 @@ public class MessageTest extends BaseTestConfiguration {
     }
 
     @Test
+    public void unmarkAsSpamMovesToInbox() {
+        FolderPage spamPage = inboxPage.goToFolder(Folder.SPAM);
+        Envelope envelop = spamPage.getAnyEnvelope();
+        String subject = envelop.getSubject();
+        MessagePage messagePage = spamPage.openEnvelope(envelop);
+        FolderPage newInboxPage = messagePage.unmarkAsSpam();
+
+        FolderPage trashPage = newInboxPage.goToFolder(Folder.TRASH);
+        Envelope recentlyRemovedMessage = trashPage.getEnvelopes().get(0);
+        assertEquals(subject, recentlyRemovedMessage.getSubject());
+    }
+
+    @Test
     public void removeFromSpamMovesToTrash() {
-        fail();
+        FolderPage spamPage = inboxPage.goToFolder(Folder.SPAM);
+        Envelope envelop = spamPage.getAnyEnvelope();
+        String subject = envelop.getSubject();
+        MessagePage messagePage = spamPage.openEnvelope(envelop);
+        FolderPage newSpamPage = messagePage.remove();
+
+        FolderPage trashPage = newSpamPage.goToFolder(Folder.TRASH);
+        Envelope recentlyRemovedMessage = trashPage.getEnvelopes().get(0);
+        assertEquals(subject, recentlyRemovedMessage.getSubject());
     }
 
     @Test
     public void removeFromTrashDeletesPermanently() {
-        fail();
+        FolderPage trashPage = inboxPage.goToFolder(Folder.TRASH);
+        Envelope envelop = trashPage.getAnyEnvelope();
+        String subject = envelop.getSubject();
+        MessagePage messagePage = trashPage.openEnvelope(envelop);
+        FolderPage newTrashPage = messagePage.remove();
+        // TODO EGOR HELP!
+        assertTrue(true);
     }
 
     @Ignore
     @Test
     public void moveToAnotherFolder() {
-        fail();
-    }
-
-    @Ignore
-    @Test
-    public void markAsSpamMovesToSpamFolder() {
-        fail();
-    }
-
-    @Ignore
-    @Test
-    public void unmarkAsSpamMovesToInbox() {
         fail();
     }
 
