@@ -10,7 +10,7 @@ Variant: 1
 
 ## Usage
 
-[Gradle] build system is used to run [Selenium] tests with [TestNG].
+[Gradle] build system is used to run [Selenium] tests with [JUnit 4].
 
 ### Run tests
 
@@ -24,4 +24,4 @@ Authored by Egor Dubenetskiy and Andrey Zavodov in 2019.
 
 [Gradle]: https://gradle.org/
 [Selenium]: https://www.seleniumhq.org/projects/webdriver/
-[TestNG]: https://testng.org/
+[JUnit 4]: https://junit.org/junit4/
