@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
 
-public class UserFixtures {
+public final class UserFixtures {
 
     private static final String USERS_FIXTURES_FILE = "/fixtures/users.toml";
     private static final TomlParseResult USERS;
