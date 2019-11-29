@@ -22,6 +22,11 @@ public final class UserFixtures {
         }
     }
 
+    /**
+     * Get a stub User object.
+     *
+     * @return an arbitrary {@link User} object.
+     */
     public static User getAnyUser() {
         TomlTable userTable = USERS.getTable("users").getTable("max");
         Domain domain = Domain.getByName(userTable.getString("domain"));
