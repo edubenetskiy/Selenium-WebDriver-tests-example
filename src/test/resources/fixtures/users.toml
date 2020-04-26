@@ -11,3 +11,10 @@ surname = 'Фрискис'
 login = 'max.friskies.90'
 domain =  'bk.ru'
 password = "$2Y;9}fh*Qc/]x5z"
+
+[users.izmail]
+name = 'Измаил'
+surname = 'Худобашев'
+login = 'izmail.khudobashev'
+domain = 'list.ru'
+password = "1YeFr3oyaOP%"
